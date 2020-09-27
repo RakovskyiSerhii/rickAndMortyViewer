@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rick_and_morty_viewer/bloc/CharacterForSthBlock.dart';
@@ -61,57 +64,86 @@ class _CharacterForSthPageState extends State<CharacterForSthPage> {
         });
       }
     });
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          InkWell(
-            onTap: () {
-              Navigator.popUntil(context, ModalRoute.withName('/'));
-            },
-            child: Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Text(
-                Strings.HOME_STRING,
-                style: Theme.of(context).textTheme.headline2,
+
+    final textTitle = _isByEpisode
+        ? sprintf(Strings.CHARACTER_FOR, [episode.episode])
+        : sprintf(Strings.CHARACTER_FROM, [location.name]);
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            child: _pageContent(episode, location),
+            navigationBar: CupertinoNavigationBar(
+              
+              trailing: GestureDetector(
+                onTap: () {
+                  Navigator.popUntil(context, ModalRoute.withName('/'));
+                },
+                child: Container(
+                  child: Text(
+                    Strings.HOME_STRING,
+                    style: Theme.of(context).textTheme.headline2,
+                  ),
+                ),
               ),
+              backgroundColor: Theme.of(context).primaryColor,
+              middle: _pageTitle(textTitle),
+            ),
+          )
+        : Scaffold(
+            appBar: AppBar(
+              actions: [
+                InkWell(
+                  onTap: () {
+                    Navigator.popUntil(context, ModalRoute.withName('/'));
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      Strings.HOME_STRING,
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                  ),
+                )
+              ],
+              title: _pageTitle(textTitle),
+            ),
+            body: _pageContent(episode, location));
+  }
+
+  Text _pageTitle(String title) {
+    return Text(title, style: Theme.of(context).appBarTheme.textTheme.headline1,);
+  }
+
+  Widget _pageContent(Episode episode, Location location) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            colors: [Theme.of(context).primaryColor, Colors.white],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0.5, 0.5]),
+      ),
+      child: CustomScrollView(
+        physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+        slivers: <Widget>[
+          SliverToBoxAdapter(
+            child: StreamBuilder(
+              stream: _block.errorStream,
+              builder: (ctx, snapshot) {
+                Failure failure = snapshot.data;
+                if (failure != null && failure.isNetworkError()) {
+                  return ErrorStub.fullScreen(() {
+                    if (_isByEpisode)
+                      _block.getCharacterForEpisode(episode);
+                    else
+                      _block.getLocation(location.name);
+                  });
+                } else
+                  return _contentList(episode, location);
+              },
             ),
           )
         ],
-        title: Text(_isByEpisode
-            ? sprintf(Strings.CHARACTER_FOR, [episode.episode])
-            : sprintf(Strings.CHARACTER_FROM, [location.name])),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Theme.of(context).primaryColor, Colors.white],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              stops: [0.5, 0.5]),
-        ),
-        child: CustomScrollView(
-          physics:
-              BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-          slivers: <Widget>[
-            SliverToBoxAdapter(
-              child: StreamBuilder(
-                stream: _block.errorStream,
-                builder: (ctx, snapshot) {
-                  Failure failure = snapshot.data;
-                  if (failure != null && failure.isNetworkError()) {
-                    return ErrorStub.fullScreen(() {
-                      if (_isByEpisode)
-                        _block.getCharacterForEpisode(episode);
-                      else
-                        _block.getLocation(location.name);
-                    });
-                  } else return _contentList(episode, location);
-                },
-              ),
-            )
-          ],
-        ),
       ),
     );
   }

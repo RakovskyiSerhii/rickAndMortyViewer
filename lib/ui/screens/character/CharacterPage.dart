@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:rick_and_morty_viewer/bloc/EpisodeBlock.dart';
@@ -33,16 +35,20 @@ class _CharacterPageState extends State<CharacterPage> {
             floating: false,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    bottomLeft: Radius.circular(8)),
-                child: Container(
-                  child: Text(character.name,
-                      style: Theme.of(context).appBarTheme.textTheme.bodyText1),
-                  color: Theme.of(context).primaryColor,
-                  width: double.infinity,
-                  padding: EdgeInsets.only(top: 2, bottom: 2, left: 4),
+              centerTitle: Platform.isIOS,
+              title: Padding(
+                padding: EdgeInsets.only(left: MediaQuery.of(context).size.width/5),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      bottomLeft: Radius.circular(8)),
+                  child: Container(
+                    child: Text(character.name,
+                        style: Theme.of(context).appBarTheme.textTheme.bodyText1),
+                    color: Theme.of(context).primaryColor,
+                    width: double.infinity,
+                    padding: EdgeInsets.only(top: 2, bottom: 2, left: 4),
+                  ),
                 ),
               ),
               background: Image.network(character.image, fit: BoxFit.fitWidth),

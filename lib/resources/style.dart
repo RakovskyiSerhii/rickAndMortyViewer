@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ThemeStyle {
@@ -15,7 +16,7 @@ class ThemeStyle {
   get theme {
     return ThemeData(
         primaryColor: Colors.green,
-        accentColor: Colors.blueAccent,
+        accentColor: Colors.white,
         textTheme: TextTheme(
             bodyText1: TextStyle(
                 color: Colors.black, fontFamily: "NotoSansKR", fontSize: 18),
@@ -38,4 +39,13 @@ class ThemeStyle {
                 fontSize: 22)),
         appBarTheme: toolBarTitleTheme);
   }
+
+  get cupertinoTheme {
+    return CupertinoThemeData(
+      primaryColor: Colors.green,
+          textTheme: CupertinoTextThemeData(
+          )
+    );
+  }
+
 }

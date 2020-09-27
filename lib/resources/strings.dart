@@ -34,5 +34,5 @@ class Strings {
   static const TYPE_LOADING_STRING = "Type ...loading...";
   static const TYPE_STRING = "Type %s";
   static const DIMENSION_UNKNOWN = "Dimension is unknown";
-
+  static const APP_TITLE = "Ch viewer";
 }
