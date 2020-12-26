@@ -9,7 +9,7 @@ class Strings {
   static const CHARACTER_ALIVE_ORIGIN_EQUAL_LOCATION = "character_alive_origin_equal_location";
   static const CHARACTER_DEAD_ORIGIN_EQUAL_LOCATION = "character_dead_origin_equal_location";
   static const CHARACTER_ALIVE_ORIGIN_NOT_EQUAL_LOCATION = "character_alive_origin_not_equal_location";
-  static const CHARACTER_DEAD_ORIGIN_NOT_EQUAL_LOCATION = "character_dead_origin_not_equal";
+  static const CHARACTER_DEAD_ORIGIN_NOT_EQUAL_LOCATION = "character_dead_origin_not_equal_location";
   static const CHARACTER_ORIGIN_UNKNOWN = "character_origin_unknown";
   static const CHARACTER_ALIVE_ORIGIN_UNKNOWN = "character_alive_origin_unknown";
   static const CHARACTER_DEAD_ORIGIN_UNKNOWN = "character_dead_origin_unknown";

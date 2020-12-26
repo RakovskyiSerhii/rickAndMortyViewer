@@ -38,18 +38,7 @@ class _LocationsPageState extends State<LocationsPage> {
   @override
   Widget build(BuildContext context) {
     _scrollController.addListener(_getOtherPage);
-    return Platform.isIOS
-        ? CupertinoPageScaffold(
-            navigationBar: CupertinoNavigationBar(
-              leading: CupertinoNavigationBarBackButton(color: Colors.white,),
-                brightness: Brightness.dark,
-                border: null,
-                middle: Text(Strings.get(context, Strings.TOOLBAR_LOCATION),
-                    style: Theme.of(context).appBarTheme.textTheme.headline1),
-                backgroundColor: Theme.of(context).appBarTheme.color),
-            child: _listLocation(context),
-          )
-        : Scaffold(
+    return Scaffold(
             appBar: AppBar(
               brightness: Brightness.dark,
               title: Text(Strings.get(context, Strings.TOOLBAR_LOCATION),

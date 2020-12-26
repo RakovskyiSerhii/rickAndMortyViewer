@@ -6,7 +6,7 @@
   "character_alive_origin_equal_location": "%s was born and lives now on %s",
   "character_dead_origin_equal_location": "%s was born and lived on %s",
   "character_alive_origin_not_equal_location": "%s lived on %s. Now %s lives now on %s",
-  "character_dead_origin_not_equal+location": "%s lived on %s. %s died on %s",
+  "character_dead_origin_not_equal_location": "%s lived on %s. %s died on %s",
   "character_origin_unknown": "Origin is unknown.",
   "character_alive_origin_unknown": "Origin is unknown. Current location is on %s",
   "character_dead_origin_unknown": "Origin is unknown. %s died on %s",
