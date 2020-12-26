@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rick_and_morty_viewer/bloc/LocationBlock.dart';
 import 'package:rick_and_morty_viewer/models/Location.dart';
@@ -35,28 +38,46 @@ class _LocationsPageState extends State<LocationsPage> {
   @override
   Widget build(BuildContext context) {
     _scrollController.addListener(_getOtherPage);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(Strings.get(context, Strings.TOOLBAR_LOCATION)),
-      ),
-      body: StreamBuilder(
-        stream: _block.locationStream,
-        builder: (ctx, snapshot) {
-          if (snapshot.data != null) {
-            final list = snapshot.data;
-            return ListView.builder(
-              itemBuilder: (ctx, index) => _itemLocation(list[index]),
-              itemCount: list.length,
-              controller: _scrollController,
-            );
-          } else
-            return SingleChildScrollView(
-              child: SkeletonLoader.location(
-                count: 6,
-              ),
-            );
-        },
-      ),
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(
+              leading: CupertinoNavigationBarBackButton(color: Colors.white,),
+                brightness: Brightness.dark,
+                border: null,
+                middle: Text(Strings.get(context, Strings.TOOLBAR_LOCATION),
+                    style: Theme.of(context).appBarTheme.textTheme.headline1),
+                backgroundColor: Theme.of(context).appBarTheme.color),
+            child: _listLocation(context),
+          )
+        : Scaffold(
+            appBar: AppBar(
+              brightness: Brightness.dark,
+              title: Text(Strings.get(context, Strings.TOOLBAR_LOCATION),
+                  style: Theme.of(context).appBarTheme.textTheme.headline1),
+              backgroundColor: Theme.of(context).appBarTheme.color,
+            ),
+            body: _listLocation(context),
+          );
+  }
+
+  Widget _listLocation(BuildContext context) {
+    return StreamBuilder(
+      stream: _block.locationStream,
+      builder: (ctx, snapshot) {
+        if (snapshot.data != null) {
+          final list = snapshot.data;
+          return ListView.builder(
+            itemBuilder: (ctx, index) => _itemLocation(list[index]),
+            itemCount: list.length,
+            controller: _scrollController,
+          );
+        } else
+          return SingleChildScrollView(
+            child: SkeletonLoader.location(
+              count: 6,
+            ),
+          );
+      },
     );
   }
 
@@ -81,13 +102,15 @@ class _LocationsPageState extends State<LocationsPage> {
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 Text(
-                  location.dimension == Strings.get(context, Strings.UNKNOWN_STRING)
+                  location.dimension ==
+                          Strings.get(context, Strings.UNKNOWN_STRING)
                       ? Strings.get(context, Strings.DIMENSION_UNKNOWN)
                       : location.dimension,
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
                 Text(
-                  sprintf(Strings.get(context, Strings.TYPE_STRING), [location.type]),
+                  sprintf(Strings.get(context, Strings.TYPE_STRING),
+                      [location.type]),
                   style: Theme.of(context).textTheme.bodyText2,
                 )
               ],

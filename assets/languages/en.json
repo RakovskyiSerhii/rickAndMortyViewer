@@ -34,5 +34,7 @@
   "home_string": "Home",
   "type_loading_string": "Type ...loading...",
   "type_string": "Type %s",
-  "dimension_unknown": "Dimension is unknown"
+  "dimension_unknown": "Dimension is unknown",
+  "by_episode_string": "By episode",
+  "by_location_string": "By location"
 }

@@ -85,12 +85,14 @@ class _CharacterListPageState extends State<CharacterListPage> {
         ? CupertinoPageScaffold(
             child: _contentPage(),
             navigationBar: CupertinoNavigationBar(
+              brightness: Brightness.dark,
                 middle: Text(Strings.get(context, Strings.APP_TITLE),
                     style: Theme.of(context).appBarTheme.textTheme.headline1),
                 backgroundColor: Theme.of(context).appBarTheme.color),
           )
         : Scaffold(
             appBar: AppBar(
+              brightness: Brightness.dark,
               title: Text(Strings.get(context, Strings.APP_TITLE),
                   style: Theme.of(context).appBarTheme.textTheme.bodyText1),
             ),

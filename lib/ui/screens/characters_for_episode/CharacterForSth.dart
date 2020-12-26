@@ -66,13 +66,18 @@ class _CharacterForSthPageState extends State<CharacterForSthPage> {
     });
 
     final textTitle = _isByEpisode
-        ? sprintf(Strings.get(context, Strings.CHARACTER_FOR), [episode.episode])
-        : sprintf(Strings.get(context, Strings.CHARACTER_FROM), [location.name]);
+        ? sprintf(
+            Strings.get(context, Strings.CHARACTER_FOR), [episode.episode])
+        : sprintf(
+            Strings.get(context, Strings.CHARACTER_FROM), [location.name]);
     return Platform.isIOS
         ? CupertinoPageScaffold(
             child: _pageContent(episode, location),
             navigationBar: CupertinoNavigationBar(
-              
+              brightness: Brightness.dark,
+              leading: CupertinoNavigationBarBackButton(
+                color: Colors.white,
+              ),
               trailing: GestureDetector(
                 onTap: () {
                   Navigator.popUntil(context, ModalRoute.withName('/'));
@@ -84,12 +89,17 @@ class _CharacterForSthPageState extends State<CharacterForSthPage> {
                   ),
                 ),
               ),
-              backgroundColor: Theme.of(context).primaryColor,
-              middle: _pageTitle(textTitle),
+              backgroundColor: Theme.of(context).appBarTheme.color,
+              border: null,
+              middle: Text(
+                _isByEpisode ? Strings.get(context, Strings.BY_EPISODE) : Strings.get(context, Strings.BY_LOCATION),
+                style: Theme.of(context).appBarTheme.textTheme.headline1,
+              ),
             ),
           )
         : Scaffold(
             appBar: AppBar(
+              brightness: Brightness.dark,
               actions: [
                 InkWell(
                   onTap: () {
@@ -111,7 +121,10 @@ class _CharacterForSthPageState extends State<CharacterForSthPage> {
   }
 
   Text _pageTitle(String title) {
-    return Text(title, style: Theme.of(context).appBarTheme.textTheme.headline1,);
+    return Text(
+      title,
+      style: Theme.of(context).appBarTheme.textTheme.headline1,
+    );
   }
 
   Widget _pageContent(Episode episode, Location location) {
@@ -255,7 +268,9 @@ class _CharacterForSthPageState extends State<CharacterForSthPage> {
                           children: [
                             Text("${location.name}\n",
                                 style: Theme.of(context).textTheme.bodyText2),
-                            Text(Strings.get(context, Strings.TYPE_LOADING_STRING),
+                            Text(
+                                Strings.get(
+                                    context, Strings.TYPE_LOADING_STRING),
                                 style: Theme.of(context).textTheme.bodyText2)
                           ],
                         );
@@ -269,7 +284,8 @@ class _CharacterForSthPageState extends State<CharacterForSthPage> {
                                 style: Theme.of(context).textTheme.bodyText2),
                             Text(
                                 sprintf(
-                                    Strings.get(context, Strings.TYPE_STRING), [remoteLocation.type]),
+                                    Strings.get(context, Strings.TYPE_STRING),
+                                    [remoteLocation.type]),
                                 style: Theme.of(context).textTheme.bodyText2)
                           ],
                         );
