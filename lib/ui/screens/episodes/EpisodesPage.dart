@@ -32,7 +32,7 @@ class _EpisodesPageState extends State<EpisodesPage> {
   Widget build(BuildContext context) {
     _scrollController.addListener(_getOtherPage);
     return Scaffold(
-      appBar: AppBar(title: Text(Strings.TOOLBAR_EPISODE)),
+      appBar: AppBar(title: Text(Strings.get(context, Strings.TOOLBAR_EPISODE))),
       body: StreamBuilder(
         stream: _block.episodesListStream,
         builder: (ctx, snapshot) {

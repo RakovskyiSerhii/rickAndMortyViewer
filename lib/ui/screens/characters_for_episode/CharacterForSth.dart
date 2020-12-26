@@ -66,8 +66,8 @@ class _CharacterForSthPageState extends State<CharacterForSthPage> {
     });
 
     final textTitle = _isByEpisode
-        ? sprintf(Strings.CHARACTER_FOR, [episode.episode])
-        : sprintf(Strings.CHARACTER_FROM, [location.name]);
+        ? sprintf(Strings.get(context, Strings.CHARACTER_FOR), [episode.episode])
+        : sprintf(Strings.get(context, Strings.CHARACTER_FROM), [location.name]);
     return Platform.isIOS
         ? CupertinoPageScaffold(
             child: _pageContent(episode, location),
@@ -79,7 +79,7 @@ class _CharacterForSthPageState extends State<CharacterForSthPage> {
                 },
                 child: Container(
                   child: Text(
-                    Strings.HOME_STRING,
+                    Strings.get(context, Strings.HOME_STRING),
                     style: Theme.of(context).textTheme.headline2,
                   ),
                 ),
@@ -99,7 +99,7 @@ class _CharacterForSthPageState extends State<CharacterForSthPage> {
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Text(
-                      Strings.HOME_STRING,
+                      Strings.get(context, Strings.HOME_STRING),
                       style: Theme.of(context).textTheme.headline2,
                     ),
                   ),
@@ -255,7 +255,7 @@ class _CharacterForSthPageState extends State<CharacterForSthPage> {
                           children: [
                             Text("${location.name}\n",
                                 style: Theme.of(context).textTheme.bodyText2),
-                            Text(Strings.TYPE_LOADING_STRING,
+                            Text(Strings.get(context, Strings.TYPE_LOADING_STRING),
                                 style: Theme.of(context).textTheme.bodyText2)
                           ],
                         );
@@ -269,7 +269,7 @@ class _CharacterForSthPageState extends State<CharacterForSthPage> {
                                 style: Theme.of(context).textTheme.bodyText2),
                             Text(
                                 sprintf(
-                                    Strings.TYPE_STRING, [remoteLocation.type]),
+                                    Strings.get(context, Strings.TYPE_STRING), [remoteLocation.type]),
                                 style: Theme.of(context).textTheme.bodyText2)
                           ],
                         );

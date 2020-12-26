@@ -1,38 +1,73 @@
+import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
+import 'package:rick_and_morty_viewer/util/localization/app_translator.dart';
+
 class Strings {
-  static const CHARACTER_LIVES_ON = "%s lives now on %s";
-  static const CHARACTER_DEAD_ON = "%s died on %s";
-  static const CHARACTER_LIVED_ON = "%s lived on %s.";
-  static const CHARACTER_ALIVE_ORIGIN_EQUAL_LOCATION = "%s was born and lives now on %s";
-  static const CHARACTER_DEAD_ORIGIN_EQUAL_LOCATION = "%s was born and lived on %s";
-  static const CHARACTER_ALIVE_ORIGIN_NOT_EQUAL_LOCATION = CHARACTER_LIVED_ON + " Now " + CHARACTER_LIVES_ON;
-  static const CHARACTER_DEAD_ORIGIN_NOT_EQUAL_LOCATION = CHARACTER_LIVED_ON + " " + CHARACTER_DEAD_ON;
-  static const CHARACTER_ORIGIN_UNKNOWN = "Origin is unknown.";
-  static const CHARACTER_ALIVE_ORIGIN_UNKNOWN = "$CHARACTER_ORIGIN_UNKNOWN Current location is on %s";
-  static const CHARACTER_DEAD_ORIGIN_UNKNOWN = "$CHARACTER_ORIGIN_UNKNOWN " + CHARACTER_DEAD_ON;
-  static const CHARACTER_ALIVE_LOCATION_UNKNOWN = CHARACTER_LIVED_ON + " Current location is unknown";
-  static const CHARACTER_DEAD_LOCATION_UNKNOWN = CHARACTER_LIVED_ON + "%s died in the darkest void";
-  static const CHARACTER_ORIGIN_LOCATION_UNKNOWN = "Sorry, our spies squad messed up with this %s and we don't know where %s is from or where %s is now.";
-  static const HE_STRING = "He";
-  static const SHE_STRING = "She";
-  static const IT_STRING = "It";
-  static const TRIPLE_DOT_SOMETHING_STRING = "... something";
-  static const GUY_STRING = "guy";
-  static const WOMAN_STRING = "woman";
-  static const MALE_STRING = "male";
-  static const FEMALE_STRING = "female";
-  static const UNKNOWN_STRING = "unknown";
-  static const ALIEN_STRING = "alien";
-  static const HUMAN_STRING = "human";
-  static const ALIVE_STRING = "alive";
-  static const DEAD_STRING = "dead";
-  static const EPISODES_STRING = "Episodes";
-  static const TOOLBAR_LOCATION = "Locations";
-  static const TOOLBAR_EPISODE = "Episodes";
-  static const CHARACTER_FOR = "Characters for %s";
-  static const CHARACTER_FROM = "Characters from %s";
-  static const HOME_STRING = "Home";
-  static const TYPE_LOADING_STRING = "Type ...loading...";
-  static const TYPE_STRING = "Type %s";
-  static const DIMENSION_UNKNOWN = "Dimension is unknown";
-  static const APP_TITLE = "Ch viewer";
+  static const CHARACTER_LIVES_ON = "character_lives_on";
+  static const CHARACTER_DEAD_ON = "character_dead_on";
+  static const CHARACTER_LIVED_ON = "character_lived_on";
+  static const CHARACTER_ALIVE_ORIGIN_EQUAL_LOCATION = "character_alive_origin_equal_location";
+  static const CHARACTER_DEAD_ORIGIN_EQUAL_LOCATION = "character_dead_origin_equal_location";
+  static const CHARACTER_ALIVE_ORIGIN_NOT_EQUAL_LOCATION = "character_alive_origin_not_equal_location";
+  static const CHARACTER_DEAD_ORIGIN_NOT_EQUAL_LOCATION = "character_dead_origin_not_equal";
+  static const CHARACTER_ORIGIN_UNKNOWN = "character_origin_unknown";
+  static const CHARACTER_ALIVE_ORIGIN_UNKNOWN = "character_alive_origin_unknown";
+  static const CHARACTER_DEAD_ORIGIN_UNKNOWN = "character_dead_origin_unknown";
+  static const CHARACTER_ALIVE_LOCATION_UNKNOWN = "character_alive_location_unknown";
+  static const CHARACTER_DEAD_LOCATION_UNKNOWN = "character_dead_location_unknown";
+  static const CHARACTER_ORIGIN_LOCATION_UNKNOWN = "character_origin_location_unknown";
+  static const HE_STRING = "he_string";
+  static const SHE_STRING = "she_string";
+  static const IT_STRING = "it_string";
+  static const TRIPLE_DOT_SOMETHING_STRING = "triple_dot_something_string";
+  static const GUY_STRING = "guy_string";
+  static const WOMAN_STRING = "woman_string";
+  static const MALE_STRING = "male_string";
+  static const FEMALE_STRING = "female_string";
+  static const UNKNOWN_STRING = "unknown_string";
+  static const ALIEN_STRING = "alien_string";
+  static const HUMAN_STRING = "human_string";
+  static const ALIVE_STRING = "alive_string";
+  static const DEAD_STRING = "dead_string";
+  static const EPISODES_STRING = "episodes_string";
+  static const TOOLBAR_LOCATION = "tool_bar_location";
+  static const TOOLBAR_EPISODE = "tool_bar_episodes";
+  static const CHARACTER_FOR = "character_for";
+  static const CHARACTER_FROM = "character_from";
+  static const HOME_STRING = "home_string";
+  static const TYPE_LOADING_STRING = "type_loading_string";
+  static const TYPE_STRING = "type_string";
+  static const DIMENSION_UNKNOWN = "dimension_unknown";
+  static const APP_TITLE = "app_title";
+
+  static const FEMALE_KEY = "female";
+  static const MALE_KEY = "male";
+
+  static String get(BuildContext context, String key) {
+    if (context != null) {
+      return AppTranslations.of(context).text(key);
+    } else {
+      return "";
+    }
+  }
+
+  static List<String> getArray(BuildContext context, String key) {
+    if (context != null) {
+      return AppTranslations.of(context).array(key);
+    } else {
+      return [];
+    }
+  }
+
+  static String plural(BuildContext context, String key, {int amount = 1}) {
+    final translator = AppTranslations.of(context);
+    final map = translator.map(key);
+    return Intl.plural(amount,
+        zero: map['zero'].replaceAll("%s", amount.toString()),
+        one: map['one'].replaceAll("%s", amount.toString()),
+        two: map['two'].replaceAll("%s", amount.toString()),
+        few: map['few'].replaceAll("%s", amount.toString()),
+        other: map['other'].replaceAll("%s", amount.toString()),
+        locale: translator.currentLanguage);
+  }
 }

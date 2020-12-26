@@ -57,7 +57,7 @@ class _CharacterPageState extends State<CharacterPage> {
           SliverFillRemaining(
             hasScrollBody: false,
             fillOverscroll: true,
-            child: _contentCharacter(character),
+            child: _contentCharacter(character, context),
           ),
         ],
       ),
@@ -71,8 +71,8 @@ class _CharacterPageState extends State<CharacterPage> {
     });
   }
 
-  Widget _contentCharacter(Character character) {
-    final characterBio = CharacterBioConstructor(character);
+  Widget _contentCharacter(Character character, BuildContext context) {
+    final characterBio = CharacterBioConstructor(character, context);
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,9 +99,10 @@ class _CharacterPageState extends State<CharacterPage> {
                       return _listEpisodes(list);
                     } else
                       return Container(
+                        padding: EdgeInsets.only(top: 20),
                         alignment: Alignment.center,
                         width: double.infinity,
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(backgroundColor: Colors.green,),
                       );
                   },
                 );
@@ -116,10 +117,13 @@ class _CharacterPageState extends State<CharacterPage> {
   }
 
   Widget _listEpisodes(List<Episode> list) {
-    return Column(
-      children: [
-        ...list.map((item) => EpisodeItemWidget(ValueKey(item.id), item)),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 40),
+      child: Column(
+        children: [
+          ...list.map((item) => EpisodeItemWidget(ValueKey(item.id), item)),
+        ],
+      ),
     );
   }
 

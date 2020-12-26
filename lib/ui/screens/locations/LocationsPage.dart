@@ -37,7 +37,7 @@ class _LocationsPageState extends State<LocationsPage> {
     _scrollController.addListener(_getOtherPage);
     return Scaffold(
       appBar: AppBar(
-        title: Text(Strings.TOOLBAR_LOCATION),
+        title: Text(Strings.get(context, Strings.TOOLBAR_LOCATION)),
       ),
       body: StreamBuilder(
         stream: _block.locationStream,
@@ -81,13 +81,13 @@ class _LocationsPageState extends State<LocationsPage> {
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 Text(
-                  location.dimension == Strings.UNKNOWN_STRING
-                      ? Strings.DIMENSION_UNKNOWN
+                  location.dimension == Strings.get(context, Strings.UNKNOWN_STRING)
+                      ? Strings.get(context, Strings.DIMENSION_UNKNOWN)
                       : location.dimension,
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
                 Text(
-                  sprintf(Strings.TYPE_STRING, [location.type]),
+                  sprintf(Strings.get(context, Strings.TYPE_STRING), [location.type]),
                   style: Theme.of(context).textTheme.bodyText2,
                 )
               ],

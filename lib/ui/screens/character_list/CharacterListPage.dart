@@ -85,13 +85,13 @@ class _CharacterListPageState extends State<CharacterListPage> {
         ? CupertinoPageScaffold(
             child: _contentPage(),
             navigationBar: CupertinoNavigationBar(
-                middle: Text(Strings.APP_TITLE,
+                middle: Text(Strings.get(context, Strings.APP_TITLE),
                     style: Theme.of(context).appBarTheme.textTheme.headline1),
                 backgroundColor: Theme.of(context).appBarTheme.color),
           )
         : Scaffold(
             appBar: AppBar(
-              title: Text(Strings.APP_TITLE,
+              title: Text(Strings.get(context, Strings.APP_TITLE),
                   style: Theme.of(context).appBarTheme.textTheme.bodyText1),
             ),
             body: _contentPage());
@@ -123,6 +123,7 @@ class _CharacterListPageState extends State<CharacterListPage> {
     _isDisplayedData = true;
     _scrollController.addListener(_getOtherPage);
     return ListView(
+      padding: EdgeInsets.only(bottom: 40),
       controller: _scrollController,
       children: list
           .map(
