@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rick_and_morty_viewer/bloc/LocationBlock.dart';
 import 'package:rick_and_morty_viewer/models/Location.dart';
@@ -36,27 +39,34 @@ class _LocationsPageState extends State<LocationsPage> {
   Widget build(BuildContext context) {
     _scrollController.addListener(_getOtherPage);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(Strings.TOOLBAR_LOCATION),
-      ),
-      body: StreamBuilder(
-        stream: _block.locationStream,
-        builder: (ctx, snapshot) {
-          if (snapshot.data != null) {
-            final list = snapshot.data;
-            return ListView.builder(
-              itemBuilder: (ctx, index) => _itemLocation(list[index]),
-              itemCount: list.length,
-              controller: _scrollController,
-            );
-          } else
-            return SingleChildScrollView(
-              child: SkeletonLoader.location(
-                count: 6,
-              ),
-            );
-        },
-      ),
+            appBar: AppBar(
+              brightness: Brightness.dark,
+              title: Text(Strings.get(context, Strings.TOOLBAR_LOCATION),
+                  style: Theme.of(context).appBarTheme.textTheme.headline1),
+              backgroundColor: Theme.of(context).appBarTheme.color,
+            ),
+            body: _listLocation(context),
+          );
+  }
+
+  Widget _listLocation(BuildContext context) {
+    return StreamBuilder(
+      stream: _block.locationStream,
+      builder: (ctx, snapshot) {
+        if (snapshot.data != null) {
+          final list = snapshot.data;
+          return ListView.builder(
+            itemBuilder: (ctx, index) => _itemLocation(list[index]),
+            itemCount: list.length,
+            controller: _scrollController,
+          );
+        } else
+          return SingleChildScrollView(
+            child: SkeletonLoader.location(
+              count: 6,
+            ),
+          );
+      },
     );
   }
 
@@ -81,13 +91,15 @@ class _LocationsPageState extends State<LocationsPage> {
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
                 Text(
-                  location.dimension == Strings.UNKNOWN_STRING
-                      ? Strings.DIMENSION_UNKNOWN
+                  location.dimension ==
+                          Strings.get(context, Strings.UNKNOWN_STRING)
+                      ? Strings.get(context, Strings.DIMENSION_UNKNOWN)
                       : location.dimension,
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
                 Text(
-                  sprintf(Strings.TYPE_STRING, [location.type]),
+                  sprintf(Strings.get(context, Strings.TYPE_STRING),
+                      [location.type]),
                   style: Theme.of(context).textTheme.bodyText2,
                 )
               ],

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rick_and_morty_viewer/core/ImagePathBuilder.dart';
+import 'package:rick_and_morty_viewer/resources/strings.dart';
 
 class ErrorStub extends StatelessWidget {
   final Function _callback;
@@ -22,19 +24,21 @@ class ErrorStub extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       child: Column(
         children: [
-          Image.asset(
-            Images.portal,
-            width: (MediaQuery.of(context).size.width / _sizeModificator) / 3,
+          Lottie.asset(
+            'assets/lottie/portal.json',
+            width: (MediaQuery.of(context).size.width / _sizeModificator) / 2,
           ),
           Padding(
             padding: EdgeInsets.only(top: 20),
-            child: Text("Connection lost", style: Theme.of(context).textTheme.bodyText1,),
+            child: Text(Strings.get(context, Strings.CONNECTION_LOST), style: Theme.of(context).textTheme.bodyText1,),
           ),
           Padding(
             padding: EdgeInsets.only(top: 20),
             child: RaisedButton(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16))),
+              color: Theme.of(context).primaryColor,
               onPressed: () => _callback(),
-              child: Text("Update"),
+              child: Text(Strings.get(context, Strings.UPDATE_STRING), style: Theme.of(context).primaryTextTheme.bodyText1,),
             ),
           )
         ],

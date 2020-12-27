@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:rick_and_morty_viewer/bloc/EpisodeBlock.dart';
@@ -33,16 +35,20 @@ class _CharacterPageState extends State<CharacterPage> {
             floating: false,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    bottomLeft: Radius.circular(8)),
-                child: Container(
-                  child: Text(character.name,
-                      style: Theme.of(context).appBarTheme.textTheme.bodyText1),
-                  color: Theme.of(context).primaryColor,
-                  width: double.infinity,
-                  padding: EdgeInsets.only(top: 2, bottom: 2, left: 4),
+              centerTitle: Platform.isIOS,
+              title: Padding(
+                padding: EdgeInsets.only(left: MediaQuery.of(context).size.width/5),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      bottomLeft: Radius.circular(8)),
+                  child: Container(
+                    child: Text(character.name,
+                        style: Theme.of(context).appBarTheme.textTheme.bodyText1),
+                    color: Theme.of(context).primaryColor,
+                    width: double.infinity,
+                    padding: EdgeInsets.only(top: 2, bottom: 2, left: 4),
+                  ),
                 ),
               ),
               background: Image.network(character.image, fit: BoxFit.fitWidth),
@@ -51,7 +57,7 @@ class _CharacterPageState extends State<CharacterPage> {
           SliverFillRemaining(
             hasScrollBody: false,
             fillOverscroll: true,
-            child: _contentCharacter(character),
+            child: _contentCharacter(character, context),
           ),
         ],
       ),
@@ -65,8 +71,8 @@ class _CharacterPageState extends State<CharacterPage> {
     });
   }
 
-  Widget _contentCharacter(Character character) {
-    final characterBio = CharacterBioConstructor(character);
+  Widget _contentCharacter(Character character, BuildContext context) {
+    final characterBio = CharacterBioConstructor(character, context);
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,9 +99,10 @@ class _CharacterPageState extends State<CharacterPage> {
                       return _listEpisodes(list);
                     } else
                       return Container(
+                        padding: EdgeInsets.only(top: 20),
                         alignment: Alignment.center,
                         width: double.infinity,
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(backgroundColor: Colors.green,),
                       );
                   },
                 );
@@ -110,10 +117,13 @@ class _CharacterPageState extends State<CharacterPage> {
   }
 
   Widget _listEpisodes(List<Episode> list) {
-    return Column(
-      children: [
-        ...list.map((item) => EpisodeItemWidget(ValueKey(item.id), item)),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 40),
+      child: Column(
+        children: [
+          ...list.map((item) => EpisodeItemWidget(ValueKey(item.id), item)),
+        ],
+      ),
     );
   }
 

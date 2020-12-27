@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:rick_and_morty_viewer/models/Character.dart';
 import 'package:rick_and_morty_viewer/resources/strings.dart';
 import 'package:sprintf/sprintf.dart';
@@ -16,55 +17,57 @@ class CharacterBioConstructor {
   String _urlLocation;
 
   String get bio => _result;
+  BuildContext context;
 
-  CharacterBioConstructor(Character character) {
+  CharacterBioConstructor(Character character, BuildContext context) {
+    this.context = context;
     _getGender(character.gender);
-    _isAlive = character.status.toLowerCase() == Strings.ALIVE_STRING;
+    _isAlive = character.status.toLowerCase() == Strings.get(context, Strings.ALIVE_STRING);
     _location = _https + character.location.name.replaceAll(" ", "_");
     _origin = _https + character.origin.name.replaceAll(" ", "_");
     _urlOrigin = character.origin.url;
     _urlLocation = character.location.url;
 
-    if (_origin.toLowerCase() == Strings.UNKNOWN_STRING &&
-        _location.toLowerCase() == Strings.UNKNOWN_STRING) {
-      _result = sprintf(Strings.CHARACTER_ORIGIN_LOCATION_UNKNOWN, [
+    if (_origin.toLowerCase() == Strings.get(context, Strings.UNKNOWN_STRING) &&
+        _location.toLowerCase() == Strings.get(context, Strings.UNKNOWN_STRING)) {
+      _result = sprintf(Strings.get(context, Strings.CHARACTER_ORIGIN_LOCATION_UNKNOWN), [
         _genderType,
         _genderString.toLowerCase(),
         _genderString.toLowerCase()
       ]);
     } else {
-      if (_origin.toLowerCase() == Strings.UNKNOWN_STRING ||
-          _location.toLowerCase() == Strings.UNKNOWN_STRING) {
-        if (_origin.toLowerCase() == Strings.UNKNOWN_STRING)
+      if (_origin.toLowerCase() == Strings.get(context, Strings.UNKNOWN_STRING) ||
+          _location.toLowerCase() == Strings.get(context, Strings.UNKNOWN_STRING)) {
+        if (_origin.toLowerCase() == Strings.get(context, Strings.UNKNOWN_STRING))
           _result = _isCharacterAlive(
-              isAlive: sprintf(Strings.CHARACTER_ALIVE_ORIGIN_UNKNOWN,
+              isAlive: sprintf(Strings.get(context, Strings.CHARACTER_ALIVE_ORIGIN_UNKNOWN),
                   [_location]),
-              isDied: sprintf(Strings.CHARACTER_DEAD_ORIGIN_UNKNOWN,
+              isDied: sprintf(Strings.get(context, Strings.CHARACTER_DEAD_ORIGIN_UNKNOWN),
                   [_genderString, _location]));
         else
           _result = _isCharacterAlive(
-              isAlive: sprintf(Strings.CHARACTER_ALIVE_LOCATION_UNKNOWN,
+              isAlive: sprintf(Strings.get(context, Strings.CHARACTER_ALIVE_LOCATION_UNKNOWN),
                   [_origin]),
-              isDied: sprintf(Strings.CHARACTER_DEAD_ORIGIN_UNKNOWN,
+              isDied: sprintf(Strings.get(context, Strings.CHARACTER_DEAD_ORIGIN_UNKNOWN),
                   [_genderString, _origin]));
       } else {
         if (_origin == _location)
           _result = _isCharacterAlive(
-              isAlive: sprintf(Strings.CHARACTER_ALIVE_ORIGIN_EQUAL_LOCATION,
+              isAlive: sprintf(Strings.get(context, Strings.CHARACTER_ALIVE_ORIGIN_EQUAL_LOCATION),
                   [_genderString, _origin]),
-              isDied: sprintf(Strings.CHARACTER_DEAD_ORIGIN_EQUAL_LOCATION,
+              isDied: sprintf(Strings.get(context, Strings.CHARACTER_DEAD_ORIGIN_EQUAL_LOCATION),
                   [_genderString, _origin]));
         else
           _result = _isCharacterAlive(
               isAlive:
-                  sprintf(Strings.CHARACTER_ALIVE_ORIGIN_NOT_EQUAL_LOCATION, [
+                  sprintf(Strings.get(context, Strings.CHARACTER_ALIVE_ORIGIN_NOT_EQUAL_LOCATION), [
                 _genderString,
                     _origin,
                 _genderString.toLowerCase(),
                     _location
               ]),
               isDied: sprintf(
-                  Strings.CHARACTER_DEAD_ORIGIN_NOT_EQUAL_LOCATION, [
+                  Strings.get(context, Strings.CHARACTER_DEAD_ORIGIN_NOT_EQUAL_LOCATION), [
                 _genderString,
                 _origin,
                 _genderString,
@@ -87,23 +90,23 @@ class CharacterBioConstructor {
 
   void _getGender(String gender) {
     switch (gender.toLowerCase()) {
-      case Strings.FEMALE_STRING:
+      case Strings.FEMALE_KEY:
         {
-          _genderString = Strings.SHE_STRING;
-          _genderType = Strings.WOMAN_STRING;
+          _genderString = Strings.get(context, Strings.SHE_STRING);
+          _genderType = Strings.get(context, Strings.WOMAN_STRING);
           break;
         }
 
-      case Strings.MALE_STRING:
+      case Strings.MALE_KEY:
         {
-          _genderString = Strings.HE_STRING;
-          _genderType = Strings.GUY_STRING;
+          _genderString = Strings.get(context, Strings.HE_STRING);
+          _genderType = Strings.get(context, Strings.GUY_STRING);
 
           break;
         }
       default:
-        _genderString = Strings.IT_STRING;
-        _genderType = Strings.TRIPLE_DOT_SOMETHING_STRING;
+        _genderString = Strings.get(context, Strings.IT_STRING);
+        _genderType = Strings.get(context, Strings.TRIPLE_DOT_SOMETHING_STRING);
     }
   }
 }
