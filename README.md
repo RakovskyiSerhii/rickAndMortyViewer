@@ -1,1 +1,1 @@
-![Main screen](screenshots/main?raw=true "Main Screen")
+![Main screen](screenshots/main.png ){:height="50%" width="50%"}
