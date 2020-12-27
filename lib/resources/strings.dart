@@ -41,6 +41,8 @@ class Strings {
   static const APP_TITLE = "app_title";
   static const BY_EPISODE = "by_episode_string";
   static const BY_LOCATION = "by_location_string";
+  static const CONNECTION_LOST = "connection_lost";
+  static const UPDATE_STRING = "update_string";
 
   static const FEMALE_KEY = "female";
   static const MALE_KEY = "male";

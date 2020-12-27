@@ -36,5 +36,7 @@
   "type_string": "Type %s",
   "dimension_unknown": "Dimension is unknown",
   "by_episode_string": "By episode",
-  "by_location_string": "By location"
+  "by_location_string": "By location",
+  "connection_lost": "Connection lost",
+  "update_string": "Update"
 }
